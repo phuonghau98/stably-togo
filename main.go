@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/phuonghau98/stably-togo/pkg/rest"
 )
 
 var (
@@ -15,6 +16,8 @@ var (
 func main() {
 
 	r := mux.NewRouter()
+	primeHandler := rest.NewPrimeHandler()
+	primeHandler.Register(r)
 
 	srv := &http.Server{
 		Handler: r,
