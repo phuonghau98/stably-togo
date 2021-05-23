@@ -1,10 +1,44 @@
-import React from 'react';
-import { Button, Col, Form, InputNumber, Row } from 'antd';
+import React, { useState } from 'react';
+import { Alert, Button, Col, Form, InputNumber, Row } from 'antd';
 import './App.css';
 
 function App() {
-  function handleFormSubmmited(values: any) {
-    console.log(values);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [responsePrimeNumber, setResponseNumber] = useState<number | null>();
+  const [requestedNumber, setRequestedNumber] = useState<number | null>();
+  const [isFetchingResult, setFetchingResult] = useState(false);
+  function handleFormSubmmited(values: { num: number }) {
+    async function fetch(): Promise<any> {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const randomState = Math.floor(Math.random() * 10) + 1;
+          console.log(randomState);
+          if (randomState % 2 === 0) resolve({ num: randomState });
+          else reject({ error: 'Something went wrong' });
+        }, 500);
+      });
+    }
+
+    // restart state
+    setResponseNumber(null);
+    setRequestedNumber(values.num);
+    setFetchingResult(true);
+    setErrorMsg('')
+
+    // Fetch response
+    fetch()
+      .then((data) => {
+        if ('num' in data) {
+          setResponseNumber(data.num);
+          setErrorMsg('');
+        }
+      })
+      .catch((err) => {
+        setErrorMsg(err.error);
+      })
+      .finally(() => {
+        setFetchingResult(false);
+      });
   }
 
   return (
@@ -25,6 +59,7 @@ function App() {
             >
               <InputNumber
                 min={2}
+                disabled={isFetchingResult}
                 size="large"
                 style={{ width: '100%' }}
                 step={1}
@@ -32,14 +67,34 @@ function App() {
               />
             </Form.Item>
             <Button
+              loading={isFetchingResult}
               type="primary"
               htmlType="submit"
               size="large"
               style={{ width: '100%' }}
             >
-              Find
+              {isFetchingResult ? 'Figuring it out...' : 'Find'}
             </Button>
           </Form>
+          <div style={{ minHeight: 40, marginTop: 20 }}>
+            {errorMsg ? (
+              <Alert message={<>{errorMsg}</>} type="error" />
+            ) : (
+              requestedNumber &&
+              responsePrimeNumber &&
+              responsePrimeNumber !== -1 && (
+                <Alert
+                  message={
+                    <>
+                      The highest prime number lower than {requestedNumber} is:{' '}
+                      <b>{responsePrimeNumber}</b>
+                    </>
+                  }
+                  type="success"
+                />
+              )
+            )}
+          </div>
         </Col>
       </Row>
     </div>
