@@ -1,0 +1,43 @@
+
+name: API-Deploy
+
+on:
+  push:
+    branches:
+      - release-api/production
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          sudo chmod 600 ~/.ssh/id_rsa
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
+
+      - name: Build & push container
+        run: |
+          docker build -t hvphuong98/stably-togo:latest .
+          docker push hvphuong98/stably-togo:latest
+      
+      - name: Restart docker container
+        run: |
+          ssh root@$HOST_SERVER '(docker container rm -f prime-production || true) && docker pull hvphuong98/stably-togo:latest'
+          ssh root@$HOST_SERVER 'docker container run -d --name prime-production --restart=always -p 8080:8080 hvphuong98/stably-togo:latest'
+        env:
+          HOST_SERVER: 'prime.phuonghau.com'
