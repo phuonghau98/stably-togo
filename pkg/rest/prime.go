@@ -16,7 +16,7 @@ func NewPrimeHandler() *PrimeHandler {
 }
 
 func (ph *PrimeHandler) Register(router *mux.Router) {
-	router.HandleFunc("/api/v1/prime/findnearest", ph.FindNearestPrime).Methods(http.MethodPost)
+	router.HandleFunc("/api/v1/prime/findnearest", ph.FindLowerNearestPrimeV1).Methods(http.MethodPost)
 }
 
 type findNearestPrimeBodyRequest struct {
@@ -34,7 +34,7 @@ type findNearestPrimeBodyResponse struct {
 	Num int `json:"num"`
 }
 
-func (handler PrimeHandler) FindNearestPrime(w http.ResponseWriter, r *http.Request) {
+func (handler PrimeHandler) FindLowerNearestPrimeV1(w http.ResponseWriter, r *http.Request) {
 	// Parse request body
 	var reqBody findNearestPrimeBodyRequest
 	if err := json.NewDecoder(r.Body).Decode(&reqBody); err != nil {
