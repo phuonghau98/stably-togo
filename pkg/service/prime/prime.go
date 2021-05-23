@@ -12,11 +12,11 @@ func isPrimeNumber(n int) bool {
 	return true
 }
 
-func FindLowerNearestPrimeNumber(n int) (error, int) {
+func FindLowerNearestPrimeNumber(n int) (int, error) {
 	for i := n - 1; i > 1; i-- {
 		if isPrimeNumber(i) {
-			return nil, i
+			return i, nil
 		}
 	}
-	return nil, -1
+	return -1, nil
 }

@@ -64,7 +64,7 @@ func TestFindLowerNearestPrimeNumber(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(testName(c.input, c.expected), func(t *testing.T) {
-			err, got := FindLowerNearestPrimeNumber(c.input)
+			got, err := FindLowerNearestPrimeNumber(c.input)
 			if err != nil {
 				log.Fatalf("There shouldn't be an error, but one caught: %v", err.Error())
 			}
