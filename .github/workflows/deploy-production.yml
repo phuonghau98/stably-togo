@@ -4,7 +4,7 @@ name: API-Deploy
 on:
   push:
     branches:
-      - release-api/production
+      - release/production
   workflow_dispatch:
 
 jobs:
