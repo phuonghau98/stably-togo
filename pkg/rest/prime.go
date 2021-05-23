@@ -9,6 +9,18 @@ import (
 	"github.com/phuonghau98/stably-togo/pkg/service/prime"
 )
 
+// Custom errors to embrace reusability
+type PrimeRequestValidationError string
+
+func (e PrimeRequestValidationError) Error() string {
+	return string(e)
+}
+
+var (
+	ErrInputNumberOutOfRange = PrimeRequestValidationError("Input number should be larger than 1")
+	ErrInvalidInputFormat    = PrimeRequestValidationError("Invalid request")
+)
+
 type PrimeHandler struct{}
 
 func NewPrimeHandler() *PrimeHandler {
@@ -25,7 +37,7 @@ type findNearestPrimeBodyRequest struct {
 
 func (f findNearestPrimeBodyRequest) validate() error {
 	if f.Num <= 1 {
-		return fmt.Errorf("Input number should be larger than 1")
+		return ErrInputNumberOutOfRange
 	}
 	return nil
 }
@@ -38,7 +50,7 @@ func (handler PrimeHandler) FindLowerNearestPrimeV1(w http.ResponseWriter, r *ht
 	// Parse request body
 	var reqBody findNearestPrimeBodyRequest
 	if err := json.NewDecoder(r.Body).Decode(&reqBody); err != nil {
-		writeErrorJSONResponse(w, "Invalid request", http.StatusBadRequest)
+		writeErrorJSONResponse(w, ErrInvalidInputFormat.Error(), http.StatusBadRequest)
 		return
 	}
 	defer r.Body.Close()
