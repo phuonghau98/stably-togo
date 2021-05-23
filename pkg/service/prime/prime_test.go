@@ -37,7 +37,7 @@ func TestIsPrimeNumber(t *testing.T) {
 	}
 }
 
-func TestNearestPrimeNumber(t *testing.T) {
+func TestFindLowerNearestPrimeNumber(t *testing.T) {
 	testName := func(input int, expected int) string {
 		if expected == -1 {
 			return fmt.Sprintf("There shouldn't be a number that is a prime number and also lower than %d", input)
@@ -64,7 +64,7 @@ func TestNearestPrimeNumber(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(testName(c.input, c.expected), func(t *testing.T) {
-			err, got := NearestPrimeNumber(c.input)
+			err, got := FindLowerNearestPrimeNumber(c.input)
 			if err != nil {
 				log.Fatalf("There shouldn't be an error, but one caught: %v", err.Error())
 			}
