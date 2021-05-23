@@ -1,5 +1,5 @@
 
-name: API-Deploy
+name: Production-deploy
 
 on:
   push:
@@ -30,12 +30,12 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
 
-      - name: Build & push container
+      - name: Build & push image
         run: |
           docker build -t hvphuong98/stably-togo:latest .
           docker push hvphuong98/stably-togo:latest
       
-      - name: Restart docker container
+      - name: Pull pushed image & restart the container on remote server
         run: |
           ssh root@$HOST_SERVER '(docker container rm -f prime-production || true) && docker pull hvphuong98/stably-togo:latest'
           ssh root@$HOST_SERVER 'docker container run -d --name prime-production --restart=always -p 8080:8080 hvphuong98/stably-togo:latest'
