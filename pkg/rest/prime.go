@@ -17,6 +17,6 @@ func (ph *PrimeHandler) Register(router *mux.Router) {
 }
 
 func (handler PrimeHandler) FindNearestPrime(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Not implemented yet"))
+	writeErrorJSONResponse(w, "Not implemented yet", 500)
 	return
 }
