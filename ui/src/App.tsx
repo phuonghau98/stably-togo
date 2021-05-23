@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Button, Col, Form, InputNumber, Row } from 'antd';
 import './App.css';
 
@@ -11,6 +11,7 @@ function App() {
   const [errorMsg, setErrorMsg] = useState('');
   const [responsePrimeNumber, setResponseNumber] = useState<number | null>();
   const [requestedNumber, setRequestedNumber] = useState<number | null>();
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [isFetchingResult, setFetchingResult] = useState(false);
   function handleFormSubmmited(values: { num: number }) {
     // async function fetch(): Promise<any> {
@@ -54,6 +55,20 @@ function App() {
       });
   }
 
+  // Focus input again after receiving response
+  useEffect(() => {
+    if (!isFetchingResult && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [isFetchingResult])
+
+  // Focus input after mounted
+  useEffect(() => {
+    if(inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [])
+
   return (
     <div className="App">
       <Row justify="center" align="middle" style={{ height: '100%' }}>
@@ -72,6 +87,7 @@ function App() {
             >
               <InputNumber
                 min={2}
+                ref={inputRef}
                 disabled={isFetchingResult}
                 size="large"
                 style={{ width: '100%' }}
