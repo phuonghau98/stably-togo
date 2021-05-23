@@ -21,6 +21,10 @@ func main() {
 	primeHandler := rest.NewPrimeHandler()
 	primeHandler.Register(r)
 
+	// Handle react build in production
+	spa := rest.SPAHandler{StaticPath: "ui/build", IndexPath: "index.html"}
+	r.PathPrefix("/").Handler(spa)
+
 	// Cors
 	corsOptions := cors.Options{}
 	if ENV != "production" {
