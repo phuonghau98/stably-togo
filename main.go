@@ -7,10 +7,12 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/phuonghau98/stably-togo/pkg/rest"
+	"github.com/rs/cors"
 )
 
 var (
 	HTTP_BINDING_ADDR = ":8080"
+	ENV               = "development"
 )
 
 func main() {
@@ -19,8 +21,16 @@ func main() {
 	primeHandler := rest.NewPrimeHandler()
 	primeHandler.Register(r)
 
+	// Cors
+	corsOptions := cors.Options{}
+	if ENV != "production" {
+		corsOptions.AllowedOrigins = []string{"http://localhost:3000"}
+	}
+
+	corsInstance := cors.New(corsOptions)
+
 	srv := &http.Server{
-		Handler: r,
+		Handler: corsInstance.Handler(r),
 		Addr:    HTTP_BINDING_ADDR,
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: 15 * time.Second,
