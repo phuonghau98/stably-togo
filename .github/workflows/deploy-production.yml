@@ -37,7 +37,7 @@ jobs:
       
       - name: Pull pushed image & restart the container on remote server
         run: |
-          ssh root@$HOST_SERVER '(docker container rm -f prime-production || true) && docker pull hvphuong98/stably-togo:latest'
-          ssh root@$HOST_SERVER 'docker container run -d --name prime-production --restart=always -p 8080:8080 hvphuong98/stably-togo:latest'
+          ssh -o StrictHostKeyChecking=No root@$HOST_SERVER '(docker container rm -f prime-production || true) && docker pull hvphuong98/stably-togo:latest'
+          ssh -o StrictHostKeyChecking=No root@$HOST_SERVER 'docker container run -d --name prime-production --restart=always -p 8080:8080 hvphuong98/stably-togo:latest'
         env:
           HOST_SERVER: 'prime.phuonghau.com'
