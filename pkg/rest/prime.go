@@ -21,15 +21,7 @@ var (
 	ErrPrimeInvalidInputFormat    = PrimeRequestValidationError("Invalid request")
 )
 
-type PrimeHandler struct{}
-
-func NewPrimeHandler() *PrimeHandler {
-	return &PrimeHandler{}
-}
-
-func (ph *PrimeHandler) Register(router *mux.Router) {
-	router.HandleFunc("/api/v1/prime/findnearest", ph.FindLowerNearestPrimeV1).Methods(http.MethodPost)
-}
+// Validations
 
 type findNearestPrimeBodyRequest struct {
 	Num int `json:"num",omitempty`
@@ -46,7 +38,19 @@ type findNearestPrimeBodyResponse struct {
 	Num int `json:"num"`
 }
 
-func (handler PrimeHandler) FindLowerNearestPrimeV1(w http.ResponseWriter, r *http.Request) {
+// Hanlders
+
+type PrimeHandler struct{}
+
+func NewPrimeHandler() *PrimeHandler {
+	return &PrimeHandler{}
+}
+
+func (ph *PrimeHandler) Register(router *mux.Router) {
+	router.HandleFunc("/api/v1/prime/findnearest", ph.FindLowerNearestPrimeV1).Methods(http.MethodPost)
+}
+
+func (handler *PrimeHandler) FindLowerNearestPrimeV1(w http.ResponseWriter, r *http.Request) {
 	// Parse request body
 	var reqBody findNearestPrimeBodyRequest
 	if err := json.NewDecoder(r.Body).Decode(&reqBody); err != nil {
