@@ -13,6 +13,7 @@ function App() {
         setTimeout(() => {
           const randomState = Math.floor(Math.random() * 10) + 1;
           console.log(randomState);
+          if (randomState < 5) resolve({ num: -1 })
           if (randomState % 2 === 0) resolve({ num: randomState });
           else reject({ error: 'Something went wrong' });
         }, 500);
@@ -23,7 +24,7 @@ function App() {
     setResponseNumber(null);
     setRequestedNumber(values.num);
     setFetchingResult(true);
-    setErrorMsg('')
+    setErrorMsg('');
 
     // Fetch response
     fetch()
@@ -81,18 +82,21 @@ function App() {
               <Alert message={<>{errorMsg}</>} type="error" />
             ) : (
               requestedNumber &&
-              responsePrimeNumber &&
-              responsePrimeNumber !== -1 && (
-                <Alert
-                  message={
-                    <>
-                      The highest prime number lower than {requestedNumber} is:{' '}
-                      <b>{responsePrimeNumber}</b>
-                    </>
-                  }
-                  type="success"
-                />
-              )
+              (responsePrimeNumber === -1 ? (
+                <Alert message="No prime number found" type='info' />
+              ) : (
+                responsePrimeNumber && (
+                  <Alert
+                    message={
+                      <>
+                        The highest prime number lower than {requestedNumber}{' '}
+                        is: <b>{responsePrimeNumber}</b>
+                      </>
+                    }
+                    type="success"
+                  />
+                )
+              ))
             )}
           </div>
         </Col>
