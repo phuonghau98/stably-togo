@@ -2,23 +2,28 @@ import React, { useState } from 'react';
 import { Alert, Button, Col, Form, InputNumber, Row } from 'antd';
 import './App.css';
 
+const FIND_PRIME_NUMBER_ENDPOINT =
+  process.env.NODE_ENV === 'production'
+    ? '/api/v1/prime/findnearest'
+    : `http://localhost:8080/api/v1/prime/findnearest`;
+
 function App() {
   const [errorMsg, setErrorMsg] = useState('');
   const [responsePrimeNumber, setResponseNumber] = useState<number | null>();
   const [requestedNumber, setRequestedNumber] = useState<number | null>();
   const [isFetchingResult, setFetchingResult] = useState(false);
   function handleFormSubmmited(values: { num: number }) {
-    async function fetch(): Promise<any> {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const randomState = Math.floor(Math.random() * 10) + 1;
-          console.log(randomState);
-          if (randomState < 5) resolve({ num: -1 })
-          if (randomState % 2 === 0) resolve({ num: randomState });
-          else reject({ error: 'Something went wrong' });
-        }, 500);
-      });
-    }
+    // async function fetch(): Promise<any> {
+    //   return new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //       const randomState = Math.floor(Math.random() * 10) + 1;
+    //       console.log(randomState);
+    //       if (randomState < 5) resolve({ num: -1 })
+    //       if (randomState % 2 === 0) resolve({ num: randomState });
+    //       else reject({ error: 'Something went wrong' });
+    //     }, 500);
+    //   });
+    // }
 
     // restart state
     setResponseNumber(null);
@@ -27,15 +32,22 @@ function App() {
     setErrorMsg('');
 
     // Fetch response
-    fetch()
+    fetch(FIND_PRIME_NUMBER_ENDPOINT, {
+      body: JSON.stringify({ num: values.num }),
+      method: 'POST',
+      
+    })
+      .then((response) => response.json())
       .then((data) => {
-        if ('num' in data) {
-          setResponseNumber(data.num);
+        console.log(data)
+        if (data && data.data) {
+          setResponseNumber(data.data.num);
           setErrorMsg('');
         }
       })
       .catch((err) => {
-        setErrorMsg(err.error);
+        console.log(err)
+        setErrorMsg(err.error ? err.error : err.toString());
       })
       .finally(() => {
         setFetchingResult(false);
@@ -83,7 +95,7 @@ function App() {
             ) : (
               requestedNumber &&
               (responsePrimeNumber === -1 ? (
-                <Alert message="No prime number found" type='info' />
+                <Alert message="No prime number found" type="info" />
               ) : (
                 responsePrimeNumber && (
                   <Alert
