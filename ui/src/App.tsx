@@ -72,17 +72,19 @@ function App() {
   return (
     <div className="App">
       <Row justify="center" align="middle" style={{ height: '100%' }}>
-        <Col>
+        <Col style={{ maxWidth: 600 }}>
           <Form layout="vertical" onFinish={handleFormSubmmited}>
             <Form.Item
               label="Enter a number that you want to find the lower nearest prime"
               name="num"
-              initialValue={2}
+              hasFeedback
+              initialValue={"2"}
               rules={[
                 {
                   required: true,
-                  message: 'A number is required',
-                },
+                  pattern: /^[0-9]{1,127}$/,
+                  message: "Invalid number, input number has length from 1 to 127 digits"
+                }
               ]}
             >
               <Input
