@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/phuonghau98/stably-togo/pkg/service/prime"
@@ -35,7 +36,7 @@ func (f findNearestPrimeBodyRequest) validate() error {
 }
 
 type findNearestPrimeBodyResponse struct {
-	Num int `json:"num"`
+	Num string `json:"num"`
 }
 
 // Hanlders
@@ -72,6 +73,6 @@ func (handler *PrimeHandler) FindLowerNearestPrimeV1(w http.ResponseWriter, r *h
 		return
 	}
 
-	writeSuccessJSONResponse(w, &findNearestPrimeBodyResponse{Num: foundPrimeNumber}, 200)
+	writeSuccessJSONResponse(w, &findNearestPrimeBodyResponse{Num: strconv.Itoa(foundPrimeNumber)}, 200)
 	return
 }
