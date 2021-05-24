@@ -14,6 +14,7 @@ import (
 
 var (
 	HTTP_BINDING_ADDR                  = ":8080"
+	HTTP_BINDING_ADDR_KEY              = "HTTP_BINDING_ADDR"
 	ENV                                = "development"
 	DOT_ENV_FILENAME                   = ".env"
 	UI_BUILD_FOLDER_KEY                = "UI_BUILD_FOLDER"
@@ -41,6 +42,7 @@ func main() {
 	uiBuildFolderPath := util.Getenv(UI_BUILD_FOLDER_KEY, DEFAULT_UI_BUILD_FOLDER_PATH)
 	uiIndexFilename := util.Getenv(UI_BUILD_INDEX_FILENAME_KEY, DEFAULT_UI_BUILD_INDEX_FILENAME)
 	uiClientURL := util.Getenv(UI_CLIENT_URL_KEY, DEFAULT_CLIENT_URL)
+	bindingAddr := util.Getenv(HTTP_BINDING_ADDR_KEY, HTTP_BINDING_ADDR)
 	env := util.Getenv(ENV_KEY, ENV_DEVELOPMENT)
 	// Init mux router
 	r := mux.NewRouter()
@@ -61,11 +63,11 @@ func main() {
 
 	srv := &http.Server{
 		Handler:      corsInstance.Handler(r),
-		Addr:         HTTP_BINDING_ADDR,
+		Addr:         bindingAddr,
 		WriteTimeout: HTTP_SERVER_WRITE_TIMEOUT_DURATION,
 		ReadTimeout:  HTTP_SERVER_READ_TIMEOUT_DURATION,
 	}
 
-	log.Println("Binding http server to ", HTTP_BINDING_ADDR)
+	log.Println("Binding http server to ", bindingAddr)
 	log.Fatal(srv.ListenAndServe())
 }
