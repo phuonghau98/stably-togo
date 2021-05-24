@@ -92,6 +92,7 @@ function App() {
                 size="large"
                 style={{ width: '100%' }}
                 step={1}
+                max={Number.MAX_SAFE_INTEGER}
                 parser={(v) => parseInt(v || '0')}
               />
             </Form.Item>
