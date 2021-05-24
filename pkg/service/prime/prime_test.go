@@ -124,6 +124,7 @@ func TestFindLowerNearestPrimeNumberOptimized(t *testing.T) {
 		input    *big.Int
 		expected string
 	}{
+		{input: big.NewInt(2), expected: "-1"},
 		{input: big.NewInt(100000039572313), expected: "100000039572263"},
 		{input: big.NewInt(1000000395723132323), expected: "1000000395723132283"},
 	}
