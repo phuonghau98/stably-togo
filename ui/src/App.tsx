@@ -4,8 +4,8 @@ import './App.css';
 
 const FIND_PRIME_NUMBER_ENDPOINT =
   process.env.NODE_ENV === 'production'
-    ? '/api/v1/prime/findnearest'
-    : `http://localhost:8080/api/v1/prime/findnearest`;
+    ? '/api/v2/prime/findnearest'
+    : `http://localhost:8080/api/v2/prime/findnearest`;
 
 function App() {
   const [errorMsg, setErrorMsg] = useState('');
