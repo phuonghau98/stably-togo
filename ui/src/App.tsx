@@ -9,7 +9,7 @@ const FIND_PRIME_NUMBER_ENDPOINT =
 
 function App() {
   const [errorMsg, setErrorMsg] = useState('');
-  const [responsePrimeNumber, setResponseNumber] = useState<number | null>();
+  const [responsePrimeNumber, setResponseNumber] = useState<string | null>();
   const [requestedNumber, setRequestedNumber] = useState<number | null>();
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [isFetchingResult, setFetchingResult] = useState(false);
@@ -110,7 +110,7 @@ function App() {
               <Alert message={<>{errorMsg}</>} type="error" />
             ) : (
               requestedNumber &&
-              (responsePrimeNumber === -1 ? (
+              (responsePrimeNumber === '-1' ? (
                 <Alert message="No prime number found" type="info" />
               ) : (
                 responsePrimeNumber && (
