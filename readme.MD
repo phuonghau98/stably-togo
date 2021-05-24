@@ -2,7 +2,7 @@
 This project provide an application that receives a number from user and returns the highest prime number lower than the input number. The application relies on the client-server architecture, in which user enter a number on user's device, the input number is propagated to the server, after some validations, the server then tries to figure out what is the result and return it to the user.
 
 ## References
-1. The demo of the code: https://phuonghau.com
+1. The demo of the code: https://prime.phuonghau.com
 2. The git repository: https://github.com/phuonghau98/stably-togo
 
 ## How to run the app
