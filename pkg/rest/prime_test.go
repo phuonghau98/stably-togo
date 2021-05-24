@@ -63,13 +63,13 @@ func TestFindLowerNearestPrimeHandler(t *testing.T) {
 			err:         nil,
 			responseNum: 8971,
 		},
-		{
-			name: "Should return `invalid request` error as response if num provided with string format",
-			request: newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", struct {
-				Num string `json:"num"`
-			}{Num: "23"}),
-			err: ErrPrimeInvalidInputFormat,
-		},
+		// {
+		// 	name: "Should return `invalid request` error as response if num provided with string format",
+		// 	request: newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", struct {
+		// 		Num string `json:"num"`
+		// 	}{Num: "23"}),
+		// 	err: ErrPrimeInvalidInputFormat,
+		// },
 		{
 			name: "Should return `invalid request` error as response if num provided with object format",
 			request: newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", struct {
@@ -157,19 +157,19 @@ func TestFindLowerNearestPrimeHandlerV2(t *testing.T) {
 			err:         nil,
 			responseNum: -1,
 		},
-		{
-			name:        "Should return body contains `num: 1000000395723132233` as response ",
-			request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: "1000000395723132283"}),
-			err:         nil,
-			responseNum: 1000000395723132233,
-		},
-		{
-			name: "Should return `invalid request` error as response if num provided with string format",
-			request: newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", struct {
-				Num string `json:"num"`
-			}{Num: "23"}),
-			err: ErrPrimeInvalidInputFormat,
-		},
+		// {
+		// 	name:        "Should return body contains `num: 1000000395723132233` as response ",
+		// 	request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: "1000000395723132283"}),
+		// 	err:         nil,
+		// 	responseNum: 1000000395723132233,
+		// },
+		// {
+		// 	name: "Should return `invalid request` error as response if num provided with string format",
+		// 	request: newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", struct {
+		// 		Num string `json:"num"`
+		// 	}{Num: "23"}),
+		// 	err: ErrPrimeInvalidInputFormat,
+		// },
 		{
 			name: "Should return `invalid request` error as response if num provided with object format",
 			request: newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", struct {
