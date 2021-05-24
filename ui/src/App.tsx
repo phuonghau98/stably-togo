@@ -5,7 +5,7 @@ import './App.css';
 const FIND_PRIME_NUMBER_ENDPOINT =
   process.env.NODE_ENV === 'production'
     ? '/api/v2/prime/findnearest'
-    : `http://localhost:8080/api/v2/prime/findnearest`;
+    : `http://localhost:${process.env.REACT_APP_BACKEND_PORT}/api/v2/prime/findnearest`;
 
 function App() {
   const [errorMsg, setErrorMsg] = useState('');
