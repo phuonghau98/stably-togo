@@ -2,8 +2,8 @@ package rest
 
 import (
 	"encoding/json"
+	"math/big"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/phuonghau98/stably-togo/pkg/service/prime"
@@ -24,11 +24,16 @@ var (
 // Validations
 
 type findNearestPrimeBodyRequest struct {
-	Num int `json:"num",omitempty`
+	Num string `json:"num",omitempty`
 }
 
 func (f findNearestPrimeBodyRequest) validate() error {
-	if f.Num <= 1 {
+	n := new(big.Int)
+	n, ok := n.SetString(f.Num, 10)
+	if !ok {
+		return ErrPrimeInvalidInputFormat
+	}
+	if n.Cmp(big.NewInt(1)) < 0 {
 		return ErrPrimeInputNumberOutOfRange
 	}
 	return nil
@@ -66,14 +71,22 @@ func (handler *PrimeHandler) FindLowerNearestPrimeV1(w http.ResponseWriter, r *h
 		return
 	}
 
+	// Convert string to bigint
+	n := new(big.Int)
+	n, ok := n.SetString(reqBody.Num, 10)
+	if !ok {
+		writeErrorJSONResponse(w, ErrPrimeInvalidInputFormat.Error(), http.StatusBadRequest)
+		return
+	}
+
 	// Process the request
-	foundPrimeNumber, err := prime.FindLowerNearestPrimeNumber(reqBody.Num)
+	foundPrimeNumber, err := prime.FindLowerNearestPrimeNumber(n)
 	if err != nil {
 		writeErrorJSONResponse(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	writeSuccessJSONResponse(w, &findNearestPrimeBodyResponse{Num: strconv.Itoa(foundPrimeNumber)}, 200)
+	writeSuccessJSONResponse(w, &findNearestPrimeBodyResponse{Num: foundPrimeNumber}, 200)
 	return
 }
 
@@ -92,13 +105,21 @@ func (handler *PrimeHandler) FindLowerNearestPrimeV2(w http.ResponseWriter, r *h
 		return
 	}
 
+	// Convert string to bigint
+	n := new(big.Int)
+	n, ok := n.SetString(reqBody.Num, 10)
+	if !ok {
+		writeErrorJSONResponse(w, ErrPrimeInvalidInputFormat.Error(), http.StatusBadRequest)
+		return
+	}
+
 	// Process the request
-	foundPrimeNumber, err := prime.FindLowerNearestPrimeNumberV2(reqBody.Num)
+	foundPrimeNumber, err := prime.FindLowerNearestPrimeNumberV2(n)
 	if err != nil {
 		writeErrorJSONResponse(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	writeSuccessJSONResponse(w, &findNearestPrimeBodyResponse{Num: strconv.Itoa(foundPrimeNumber)}, 200)
+	writeSuccessJSONResponse(w, &findNearestPrimeBodyResponse{Num: foundPrimeNumber}, 200)
 	return
 }

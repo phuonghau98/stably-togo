@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Col, Form, InputNumber, Row } from 'antd';
+import { Alert, Button, Col, Form, Input, InputNumber, Row } from 'antd';
 import './App.css';
 
 const FIND_PRIME_NUMBER_ENDPOINT =
@@ -10,10 +10,10 @@ const FIND_PRIME_NUMBER_ENDPOINT =
 function App() {
   const [errorMsg, setErrorMsg] = useState('');
   const [responsePrimeNumber, setResponseNumber] = useState<string | null>();
-  const [requestedNumber, setRequestedNumber] = useState<number | null>();
-  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const [requestedNumber, setRequestedNumber] = useState<string | null>();
+  const inputRef = React.useRef<Input | null>(null);
   const [isFetchingResult, setFetchingResult] = useState(false);
-  function handleFormSubmmited(values: { num: number }) {
+  function handleFormSubmmited(values: { num: string }) {
     // async function fetch(): Promise<any> {
     //   return new Promise((resolve, reject) => {
     //     setTimeout(() => {
@@ -40,14 +40,15 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        if (data.error) {
+          setErrorMsg(data.error);
+        }
         if (data && data.data) {
           setResponseNumber(data.data.num);
           setErrorMsg('');
         }
       })
       .catch((err) => {
-        console.log(err)
         setErrorMsg(err.error ? err.error : err.toString());
       })
       .finally(() => {
@@ -68,7 +69,6 @@ function App() {
       inputRef.current.focus()
     }
   }, [])
-
   return (
     <div className="App">
       <Row justify="center" align="middle" style={{ height: '100%' }}>
@@ -85,15 +85,11 @@ function App() {
                 },
               ]}
             >
-              <InputNumber
-                min={2}
+              <Input
                 ref={inputRef}
                 disabled={isFetchingResult}
                 size="large"
                 style={{ width: '100%' }}
-                step={1}
-                max={Number.MAX_SAFE_INTEGER}
-                parser={(v) => parseInt(v || '0')}
               />
             </Form.Item>
             <Button
