@@ -3,26 +3,27 @@ package prime
 import (
 	"fmt"
 	"log"
+	"math/big"
 	"testing"
 )
 
 func TestIsPrimeNumber(t *testing.T) {
-	testName := func(n int, isPrime bool) string {
-		return fmt.Sprintf("%d is prime number: %t", n, isPrime)
+	testName := func(n *big.Int, isPrime bool) string {
+		return fmt.Sprintf("%v is prime number: %t", n, isPrime)
 	}
 
 	cases := []struct {
-		input    int
+		input    *big.Int
 		expected bool
 	}{
-		{input: -1, expected: false},
-		{input: 2, expected: true},
-		{input: 3, expected: true},
-		{input: 14, expected: false},
-		{input: 60, expected: false},
-		{input: 80, expected: false},
-		{input: 97, expected: true},
-		{input: 99, expected: false},
+		{input: big.NewInt(-1), expected: false},
+		{input: big.NewInt(2), expected: true},
+		{input: big.NewInt(3), expected: true},
+		{input: big.NewInt(14), expected: false},
+		{input: big.NewInt(60), expected: false},
+		{input: big.NewInt(80), expected: false},
+		{input: big.NewInt(97), expected: true},
+		{input: big.NewInt(99), expected: false},
 	}
 
 	for _, c := range cases {
@@ -38,27 +39,27 @@ func TestIsPrimeNumber(t *testing.T) {
 }
 
 func TestFindLowerNearestPrimeNumber(t *testing.T) {
-	testName := func(input int, expected int) string {
-		if expected == -1 {
-			return fmt.Sprintf("There shouldn't be a number that is a prime number and also lower than %d", input)
+	testName := func(input *big.Int, expected string) string {
+		if expected == "-1" {
+			return fmt.Sprintf("There shouldn't be a number that is a prime number and also lower than %v", input)
 		}
-		return fmt.Sprintf("The highest prime number lower than %d should be: %d", input, expected)
+		return fmt.Sprintf("The highest prime number lower than %v should be: %v", input, expected)
 	}
 
 	cases := []struct {
-		input    int
-		expected int
+		input    *big.Int
+		expected string
 	}{
-		{input: 2, expected: -1},
-		{input: 3, expected: 2},
-		{input: 5, expected: 3},
-		{input: 14, expected: 13},
-		{input: 73, expected: 71},
-		{input: 97, expected: 89},
-		{input: 98, expected: 97},
-		{input: 2084, expected: 2083},
-		{input: 8999, expected: 8971},
-		{input: 1299827, expected: 1299821},
+		{input: big.NewInt(2), expected: "-1"},
+		{input: big.NewInt(3), expected: "2"},
+		{input: big.NewInt(5), expected: "3"},
+		{input: big.NewInt(14), expected: "13"},
+		{input: big.NewInt(73), expected: "71"},
+		{input: big.NewInt(97), expected: "89"},
+		{input: big.NewInt(98), expected: "97"},
+		{input: big.NewInt(2084), expected: "2083"},
+		{input: big.NewInt(8999), expected: "8971"},
+		{input: big.NewInt(1299827), expected: "1299821"},
 		// {input: 10000003957, expected: 10000003931},
 	}
 
@@ -78,22 +79,22 @@ func TestFindLowerNearestPrimeNumber(t *testing.T) {
 }
 
 func TestFindLowerNearestPrimeNumberV2(t *testing.T) {
-	testName := func(input int, expected int) string {
-		if expected == -1 {
-			return fmt.Sprintf("There shouldn't be a number that is a prime number and also lower than %d", input)
+	testName := func(input *big.Int, expected string) string {
+		if expected == "-1" {
+			return fmt.Sprintf("There shouldn't be a number that is a prime number and also lower than %v", input)
 		}
-		return fmt.Sprintf("The highest prime number lower than %d should be: %d", input, expected)
+		return fmt.Sprintf("The highest prime number lower than %v should be: %v", input, expected)
 	}
 
 	cases := []struct {
-		input    int
-		expected int
+		input    *big.Int
+		expected string
 	}{
-		{input: 2, expected: -1},
-		{input: 1299827, expected: 1299821},
-		{input: 10000003957, expected: 10000003931},
-		{input: 100000039572313, expected: 100000039572263},
-		{input: 1000000395723132323, expected: 1000000395723132283},
+		{input: big.NewInt(2), expected: "-1"},
+		{input: big.NewInt(1299827), expected: "1299821"},
+		{input: big.NewInt(10000003957), expected: "10000003931"},
+		// {input: 100000039572313, expected: "100000039572263"},
+		// {input: 1000000395723132323, expected: "1000000395723132283"},
 	}
 
 	for _, c := range cases {

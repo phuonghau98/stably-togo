@@ -47,19 +47,19 @@ func TestFindLowerNearestPrimeHandler(t *testing.T) {
 	}{
 		{
 			name:        "Should return body contains `num: 11` as response",
-			request:     newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", findNearestPrimeBodyRequest{Num: 12}),
+			request:     newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", findNearestPrimeBodyRequest{Num: "12"}),
 			err:         nil,
 			responseNum: 11,
 		},
 		{
 			name:        "Should return body contains `num: -1` as response",
-			request:     newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", findNearestPrimeBodyRequest{Num: 2}),
+			request:     newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", findNearestPrimeBodyRequest{Num: "2"}),
 			err:         nil,
 			responseNum: -1,
 		},
 		{
 			name:        "Should return body contains `num: 8971` as response ",
-			request:     newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", findNearestPrimeBodyRequest{Num: 8999}),
+			request:     newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", findNearestPrimeBodyRequest{Num: "8999"}),
 			err:         nil,
 			responseNum: 8971,
 		},
@@ -79,7 +79,7 @@ func TestFindLowerNearestPrimeHandler(t *testing.T) {
 		},
 		{
 			name:    "Should return `ErrPrimeInputNumberOutOfRange` error as response if num provided less than 2",
-			request: newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", findNearestPrimeBodyRequest{Num: -1}),
+			request: newreq(http.MethodPost, ts.URL+"/api/v1/prime/findnearest", findNearestPrimeBodyRequest{Num: "-1"}),
 			err:     ErrPrimeInputNumberOutOfRange,
 		},
 	}
@@ -147,19 +147,19 @@ func TestFindLowerNearestPrimeHandlerV2(t *testing.T) {
 	}{
 		{
 			name:        "Should return body contains `num: 11` as response",
-			request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: 12}),
+			request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: "12"}),
 			err:         nil,
 			responseNum: 11,
 		},
 		{
 			name:        "Should return body contains `num: -1` as response",
-			request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: 2}),
+			request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: "2"}),
 			err:         nil,
 			responseNum: -1,
 		},
 		{
 			name:        "Should return body contains `num: 1000000395723132233` as response ",
-			request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: 1000000395723132283}),
+			request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: "1000000395723132283"}),
 			err:         nil,
 			responseNum: 1000000395723132233,
 		},
@@ -179,7 +179,7 @@ func TestFindLowerNearestPrimeHandlerV2(t *testing.T) {
 		},
 		{
 			name:    "Should return `ErrPrimeInputNumberOutOfRange` error as response if num provided less than 2",
-			request: newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: -1}),
+			request: newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: "-1"}),
 			err:     ErrPrimeInputNumberOutOfRange,
 		},
 	}
