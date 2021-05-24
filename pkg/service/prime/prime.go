@@ -49,7 +49,6 @@ func FindLowerNearestPrimeNumberV2(n *big.Int) (string, error) {
 	one := big.NewInt(1)
 	for i := new(big.Int).Sub(n, one); i.Cmp(one) > 0; i.Sub(i, one) {
 		// big.NewInt(int64(i)).ProbablyPrime(0)
-		fmt.Println(i, isPrimeNumberV2(i), i.ProbablyPrime(0))
 		if isPrimeNumberV2(i) {
 			return i.String(), nil
 		}
