@@ -111,3 +111,34 @@ func TestFindLowerNearestPrimeNumberV2(t *testing.T) {
 		})
 	}
 }
+
+func TestFindLowerNearestPrimeNumberOptimized(t *testing.T) {
+	testName := func(input *big.Int, expected string) string {
+		if expected == "-1" {
+			return fmt.Sprintf("There shouldn't be a number that is a prime number and also lower than %v", input)
+		}
+		return fmt.Sprintf("The highest prime number lower than %v should be: %v", input, expected)
+	}
+
+	cases := []struct {
+		input    *big.Int
+		expected string
+	}{
+		{input: big.NewInt(100000039572313), expected: "100000039572263"},
+		{input: big.NewInt(1000000395723132323), expected: "1000000395723132283"},
+	}
+
+	for _, c := range cases {
+		t.Run(testName(c.input, c.expected), func(t *testing.T) {
+			got, err := FindLowerNearestPrimeNumberOptimized(c.input)
+			if err != nil {
+				log.Fatalf("There shouldn't be an error, but one caught: %v", err.Error())
+			}
+			want := c.expected
+
+			if got != want {
+				log.Fatalf("Wanted: %v, got: %v", want, got)
+			}
+		})
+	}
+}
