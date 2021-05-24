@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"testing"
 
 	"github.com/gorilla/mux"
@@ -109,7 +110,7 @@ func TestFindLowerNearestPrimeHandler(t *testing.T) {
 				wantedNum := testCase.responseNum
 				gotNum := response.Data.Num
 
-				if wantedNum != gotNum {
+				if strconv.Itoa(wantedNum) != gotNum {
 					log.Fatalf("Should receive num: %v as response, but got: %v", wantedNum, gotNum)
 				}
 			}
