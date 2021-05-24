@@ -2,7 +2,6 @@ package rest
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -62,14 +61,14 @@ func (handler *PrimeHandler) FindLowerNearestPrimeV1(w http.ResponseWriter, r *h
 
 	// validate inputs
 	if err := reqBody.validate(); err != nil {
-		writeErrorJSONResponse(w, err.Error(), 400)
+		writeErrorJSONResponse(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	// Process the request
 	foundPrimeNumber, err := prime.FindLowerNearestPrimeNumber(reqBody.Num)
 	if err != nil {
-		writeErrorJSONResponse(w, fmt.Sprintf("%v", foundPrimeNumber), 500)
+		writeErrorJSONResponse(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
