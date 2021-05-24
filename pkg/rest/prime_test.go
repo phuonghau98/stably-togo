@@ -157,12 +157,12 @@ func TestFindLowerNearestPrimeHandlerV2(t *testing.T) {
 			err:         nil,
 			responseNum: -1,
 		},
-		// {
-		// 	name:        "Should return body contains `num: 1000000395723132233` as response ",
-		// 	request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: "1000000395723132283"}),
-		// 	err:         nil,
-		// 	responseNum: 1000000395723132233,
-		// },
+		{
+			name:        "Should return body contains `num: 10000003931` as response ",
+			request:     newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", findNearestPrimeBodyRequest{Num: "10000003952"}),
+			err:         nil,
+			responseNum: 10000003931,
+		},
 		// {
 		// 	name: "Should return `invalid request` error as response if num provided with string format",
 		// 	request: newreq(http.MethodPost, ts.URL+"/api/v2/prime/findnearest", struct {
