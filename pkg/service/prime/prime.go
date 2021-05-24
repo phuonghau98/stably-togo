@@ -55,3 +55,13 @@ func FindLowerNearestPrimeNumberV2(n *big.Int) (string, error) {
 	}
 	return "-1", nil
 }
+
+func FindLowerNearestPrimeNumberOptimized(n *big.Int) (string, error) {
+	one := big.NewInt(1)
+	for i := new(big.Int).Sub(n, one); i.Cmp(one) > 0; i.Sub(i, one) {
+		if i.ProbablyPrime(0) {
+			return i.String(), nil
+		}
+	}
+	return "-1", nil
+}

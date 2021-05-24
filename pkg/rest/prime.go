@@ -114,7 +114,7 @@ func (handler *PrimeHandler) FindLowerNearestPrimeV2(w http.ResponseWriter, r *h
 	}
 
 	// Process the request
-	foundPrimeNumber, err := prime.FindLowerNearestPrimeNumberV2(n)
+	foundPrimeNumber, err := prime.FindLowerNearestPrimeNumberOptimized(n)
 	if err != nil {
 		writeErrorJSONResponse(w, err.Error(), http.StatusInternalServerError)
 		return
